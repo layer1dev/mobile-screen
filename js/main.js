@@ -1,3 +1,12 @@
+// URL, Querystring
+var url_query = window.location.search;
+var url_path = window.location.pathname;
+
+var size = {
+    width: window.innerWidth || document.body.clientWidth,
+    height: window.innerHeight || document.body.clientHeight 
+};
+
 const routes = [];
 
 const router = VueRouter.createRouter({
@@ -11,8 +20,11 @@ var app = Vue.createApp({
     data() {
         return {
             message: "init",
+            company: "",
             items: {},
-            titles: []
+            titles: [],
+            deviceRow: [],
+            screenSize: size
         };
     },
     beforeCreate() {},
@@ -75,7 +87,21 @@ var app = Vue.createApp({
                 }
                 this.titles = Object.keys(response.data);
                 this.items = response.data;
+
+                this.moveTap("Apple");
             });
+        },
+        moveTap: function(company, event) {
+            if( typeof(event) != "undefined" ) {
+                let tabList = document.getElementsByClassName("nav-link");
+
+                for(let i in tabList) {
+                    tabList[i].className = "nav-link";
+                }
+                event.currentTarget.className = "nav-link active";
+            }
+
+            this.deviceRow = this.items[company];
         }
 
     },
